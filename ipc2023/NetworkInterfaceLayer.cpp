@@ -125,6 +125,8 @@ UINT CNILayer::ThreadFunction_RECEIVE(LPVOID pParam) {
 			// 복사한 데이터를 Receive 함수로 전달
 			pNI->Receive(pNI->data);
 		}
+
+		Sleep(1000);
 	}
 	return 0;
 }

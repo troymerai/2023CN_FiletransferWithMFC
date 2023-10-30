@@ -108,4 +108,6 @@ public:
 	afx_msg void OnBnClickedButtonSelFile();
 	afx_msg void OnBnClickedButtonSendFile();
 	CProgressCtrl m_progressFile;
+	afx_msg void OnBnClickedCheck2();
+	afx_msg void OnBnClickedCheck1();
 };

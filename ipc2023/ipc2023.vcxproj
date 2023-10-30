@@ -45,7 +45,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
     <UseOfMfc>Dynamic</UseOfMfc>
   </PropertyGroup>
@@ -77,8 +77,8 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>C:\Users\user\Downloads\WpdPack_4_1_2\WpdPack\Include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\Users\user\Downloads\WpdPack_4_1_2\WpdPack\Lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\Users\SongYoengEun\Desktop\WpdPack\Include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Users\SongYoengEun\Desktop\WpdPack\Lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
