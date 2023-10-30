@@ -94,6 +94,9 @@ UINT FileTransLayer::FILE_SEND(LPVOID pParam) {
 	pFL->SetHeader(totallength, FILE_INFO, seq, (unsigned char*)(SendFile.GetFileName().GetBuffer(0)));
 	pFL->Send((unsigned char*)&(pFL->mHeader), SIZE_FILE_HEADER + SendFile.GetFileName().GetLength() + 1);
 
+	/* 이부분 추가됨*/
+	pFL->mPro->SetPos(0);
+
 	// read_file에서 MAX_APP_DATA 크기 만큼 읽어서 buffer에 저장,
 	// 그 크기만큼 FILE_MORE 타입의 패킷으로 전송
 	// 이 과정을 더 이상 읽어올 데이터가 없을 때까지 반복
@@ -104,10 +107,14 @@ UINT FileTransLayer::FILE_SEND(LPVOID pParam) {
 		pFL->Send((unsigned char*)&(pFL->mHeader), SIZE_FILE_HEADER + (totallength > MAX_APP_DATA ? MAX_APP_DATA : totallength));
 		// 남은 데이터 길이 갱신
 		totallength -= MAX_APP_DATA;
+
 		// progress bar 위치 갱신
 		pFL->mPro->SetPos(seq);
 	}
 
+	/*이 부분 추가*/
+	pFL->mPro->SetPos(100);
+		
 	// 모든 데이터를 전송한 후 FILE_LAST 타입의 패킷을 전송하여 파일 전송이 끝났음을 알림
 	pFL->SetHeader(0, FILE_LAST, ++seq, (unsigned char*)"aaaaaaaa");
 	pFL->Send((unsigned char*)&(pFL->mHeader), SIZE_FILE_HEADER + 8);
