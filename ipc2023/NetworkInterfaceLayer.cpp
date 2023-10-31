@@ -94,7 +94,7 @@ UCHAR* CNILayer::SetAdapter(const int index) {
 	// MAC 주소 반환
 	return macAddress;
 }
-
+	
 // 모든 네트워크 장치(이더넷 카드 ..) 정보를 adapterlist에 추가하는 함수
 void CNILayer::GetMacAddressList(CStringArray& adapterlist) {
 	for (pcap_if_t* d = allDevices; d; d = d->next) {
@@ -128,7 +128,9 @@ UINT CNILayer::ThreadFunction_RECEIVE(LPVOID pParam) {
 
 		//Sleep(1000);
 	}
-	return 0;
+	// 스레드 함수 내에서 return은 스레드 종료 
+	//AfxBeginThread()로 생성된 스레드 객체 삭제 (메모리 해제가 자동으로 되기 때문에 delete는 따로 안해줘도 된다고 함)
+	return 0; 
 }
 
 // canRead 변수의 값을 반전시키는 함수

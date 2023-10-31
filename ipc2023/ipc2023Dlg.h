@@ -110,4 +110,5 @@ public:
 	CProgressCtrl m_progressFile;
 	afx_msg void OnBnClickedCheck2();
 	afx_msg void OnBnClickedCheck1();
+	afx_msg void OnNMCustomdrawProgressFileTransfer(NMHDR* pNMHDR, LRESULT* pResult);
 };
