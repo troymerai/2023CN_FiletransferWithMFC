@@ -125,6 +125,9 @@ BEGIN_MESSAGE_MAP(Cipc2023Dlg, CDialogEx)
 	ON_CBN_SELCHANGE(IDC_COMBO_ADAPTER_LIST, &Cipc2023Dlg::OnCbnSelchangeComboAdapterList)
 	ON_BN_CLICKED(IDC_BUTTON_SEL_FILE, &Cipc2023Dlg::OnBnClickedButtonSelFile)
 	ON_BN_CLICKED(IDC_BUTTON_SEND_FILE, &Cipc2023Dlg::OnBnClickedButtonSendFile)
+	ON_BN_CLICKED(IDC_CHECK2, &Cipc2023Dlg::OnBnClickedCheck2)
+	ON_BN_CLICKED(IDC_CHECK1, &Cipc2023Dlg::OnBnClickedCheck1)
+	ON_NOTIFY(NM_CUSTOMDRAW, IDC_PROGRESS_FILE_TRANSFER, &Cipc2023Dlg::OnNMCustomdrawProgressFileTransfer)
 END_MESSAGE_MAP()
 
 
@@ -480,14 +483,32 @@ void Cipc2023Dlg::OnBnClickedButtonSelFile()
 	CFileDialog dlg(TRUE, _T("*.dat"), NULL,
 		OFN_HIDEREADONLY |
 		OFN_OVERWRITEPROMPT
-		, str, this);
+		, _T("All Files (*.*)|*.*|Text Files (*.txt)|*.txt|JPEG Files (*.jpg)|*.jpg|"), this);	//파일 확장자 필터링하는 코드
 
 	if (dlg.DoModal() == IDOK)
 	{
 		strPathName = dlg.GetPathName();
+
+		CString strFileExt = dlg.GetFileExt();
+
+		if (((CButton*)GetDlgItem(IDC_CHECK1))->GetCheck() && strFileExt.CompareNoCase(_T("jpg")) == 0) {
+			SetDlgItemText(IDC_EDIT_FILE_PATH, strPathName);
+			m_File->SetFilePath(strPathName);
+		}
+
+		else if (((CButton*)GetDlgItem(IDC_CHECK2))->GetCheck() && strFileExt.CompareNoCase(_T("txt")) == 0) {
+			SetDlgItemText(IDC_EDIT_FILE_PATH, strPathName);
+			m_File->SetFilePath(strPathName);
+		}
+		else {
+			AfxMessageBox(_T("파일 형식이랑 버튼 선택이 일치하지 않아요."), MB_OK | MB_ICONWARNING);
+		}
+
+		/*
 		// 파일 경로를 가져와 사용할 경우, Edit Control에 값 저장
 		SetDlgItemText(IDC_EDIT_FILE_PATH, strPathName);
 		m_File->SetFilePath(strPathName);
+		*/
 	}
 
 }
@@ -514,5 +535,33 @@ void Cipc2023Dlg::OnBnClickedButtonSendFile()
 	//ar.Close();
 	//file.Close();
 	//output.Close();
+	// 스레드 객체 생성
 	AfxBeginThread(m_File->FILE_SEND, m_File);
+}
+
+void Cipc2023Dlg::OnBnClickedCheck1()
+{
+	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+	if (((CButton*)GetDlgItem(IDC_CHECK1))->GetCheck()) {
+		((CButton*)GetDlgItem(IDC_CHECK2))->SetCheck(0);
+	}
+}
+
+
+void Cipc2023Dlg::OnBnClickedCheck2()
+{
+	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+	if (((CButton*)GetDlgItem(IDC_CHECK2))->GetCheck()) {
+		((CButton*)GetDlgItem(IDC_CHECK1))->SetCheck(0);
+	}
+}
+
+
+
+
+void Cipc2023Dlg::OnNMCustomdrawProgressFileTransfer(NMHDR* pNMHDR, LRESULT* pResult)
+{
+	LPNMCUSTOMDRAW pNMCD = reinterpret_cast<LPNMCUSTOMDRAW>(pNMHDR);
+	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+	*pResult = 0;
 }
